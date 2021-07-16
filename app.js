@@ -42,53 +42,53 @@ app.post('/customer', function (req, res) {
     var input1 = req.body.input1;
     var input2 = req.body.input2;
     var balance = Number(req.body.num);
-     
-        Bank.find({ name: input1, input2 }, function (err, result) {
-            if (result == null ) {
-                 res.sendFile(__dirname + '/error.html');
-                 console.log(result);
-                 
 
-                
-            }
-            else {
-                
-                Bank.findOne({ name: input1 }, function (err,result1) {
-                    if (err) {
-                        res.sendFile(__dirname + '/error.html');
-
-                    }
-                    else {
-                        Bank.updateOne({name: input1},{money: result1.money - balance}, function(err){
-                              if(err){
-                                  console.log('error');
-                              }
-
-                        });
-                    }
-                });
-                Bank.findOne({ name: input2 },function (err,result2) {
-                    if (err) {
-                        res.sendFile(__dirname + '/error.html');
-
-                    }
-                    else {
-                        Bank.updateOne({name: input2},{money: result2.money + balance}, function(err){
-                            if(err){
-                                console.log('error');
-                            }
+    Bank.find({ name: input1, input2 }, function (err, result) {
+        if (result == null) {
+            res.sendFile(__dirname + '/error.html');
+            console.log(result);
 
 
-                        });
-                        res.redirect('/customer');
-                    }
-                });
-            }
 
-        });
-        
-    
-    
+        }
+        else {
+
+            Bank.findOne({ name: input1 }, function (err, result1) {
+                if (err) {
+                    res.sendFile(__dirname + '/error.html');
+
+                }
+                else {
+                    Bank.updateOne({ name: input1 }, { money: result1.money - balance }, function (err) {
+                        if (err) {
+                            console.log('error');
+                        }
+
+                    });
+                }
+            });
+            Bank.findOne({ name: input2 }, function (err, result2) {
+                if (err) {
+                    res.sendFile(__dirname + '/error.html');
+
+                }
+                else {
+                    Bank.updateOne({ name: input2 }, { money: result2.money + balance }, function (err) {
+                        if (err) {
+                            console.log('error');
+                        }
+
+
+                    });
+                    res.redirect('/customer');
+                }
+            });
+        }
+
+    });
+
+
+
 
 });
 
@@ -96,6 +96,6 @@ app.post('/customer', function (req, res) {
 
 
 
-app.listen(process.env.PORT || 3000 , function () {
+app.listen(process.env.PORT || 3000, function () {
     console.log("server started on port 3000");
 });
